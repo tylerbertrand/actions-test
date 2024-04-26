@@ -7,8 +7,6 @@
         matrix:
           include:
             - experimentId: 1
-            - experimentId: 2
-            - experimentId: 3
       runs-on: macos-latest
       steps:
         - name: Set up JDK 17
@@ -20,3 +18,24 @@
           uses: gradle/gradle-enterprise-build-validation-scripts/.github/actions/gradle/download@actions-stable
           with:
             token: ${{ secrets.GITHUB_TOKEN }}
+#        - name: Run experiment 1
+#          uses: gradle/gradle-enterprise-build-validation-scripts/.github/actions/experiment-1@actions-stable
+#          env:
+#            GRADLE_ENTERPRISE_ACCESS_KEY: "${{ secrets.GE_SOLUTIONS_ACCESS_TOKEN }}"
+#          with:
+#            gitRepo: ${{ env.GIT_REPO }}
+#            tasks: ${{ env.TASKS }}
+#            args: ${{ env.ARGS }}
+#            gradleEnterpriseUrl: ${{ env.GRADLE_ENTERPRISE_URL }}
+#          if: matrix.experimentId == 1
+        - name: Run experiment 1
+          uses: ./.github/actions/experiment-1-debug
+          env:
+            GRADLE_ENTERPRISE_ACCESS_KEY: "${{ secrets.GE_SOLUTIONS_ACCESS_TOKEN }}"
+          with:
+            gitRepo: ${{ env.GIT_REPO }}
+            tasks: ${{ env.TASKS }}
+            args: ${{ env.ARGS }}
+            gradleEnterpriseUrl: ${{ env.GRADLE_ENTERPRISE_URL }}
+            debug: true
+          if: matrix.experimentId == 1
